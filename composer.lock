@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e04de36a614b14c4be152a65a6f77de",
+    "content-hash": "27641dfb80c08372230bc846e5e21087",
     "packages": [
         {
             "name": "adnanhussainturki/microsoft-api-php",

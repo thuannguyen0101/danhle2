@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-json": "*",
         "adnanhussainturki/microsoft-api-php": "^0.03.0",
         "backpack/crud": "4.1.*",
         "backpack/permissionmanager": "^6.0",
@@ -14,8 +15,7 @@
         "laravel/framework": "^8.54",
         "laravel/tinker": "^2.5",
         "league/oauth2-client": "^2.6",
-        "microsoft/microsoft-graph": "^1.37",
-        "ext-json": "*"
+        "microsoft/microsoft-graph": "^1.37"
     },
     "require-dev": {
         "backpack/generators": "^3.1",

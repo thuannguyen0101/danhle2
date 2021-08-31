@@ -27,12 +27,12 @@ class UserSeeder extends Seeder
             ],
             [
                 'name'=>'Nguyen Ngoc Thuan DZ',
-                'email'=>'thuandz010120022gmail.com',
+                'email'=>'thuandz01012002gmail.com',
                 'microsoft_id'=>'09876543234567893',
             ],
             [
                 'name'=>'Nguyen Ngoc Thuan 19',
-                'email'=>'thuannnth2009019@gmail.com',
+                'email'=>'thuannnth2009019@fpt.edu.vn',
                 'microsoft_id'=>'09876543234567894',
             ],
             [

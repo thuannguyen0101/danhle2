@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\RequestRequest;
+use App\Models\Request;
+use App\Models\TeamDetail;
+use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Class RequestCrudController
@@ -13,6 +17,33 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  */
 class RequestCrudController extends CrudController
 {
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation {
+        store as traitStore;
+    }
+
+    public function store()
+    {
+        $request = new Request();
+        $request->sender_id = backpack_user()->id;
+        $request->request_type = $this->crud->getRequest()->request_type;
+        $request->message = $this->crud->getRequest()->message;
+        $request->state = 1;
+        $request->save();
+        $team_detail = TeamDetail::query()->where('team_id', $this->crud->getRequest()->team_id)->get();
+        foreach ($team_detail as $item) {
+            $user = User::query()->where('id', $item->employee_id)->get();
+            $data = $this->crud->getRequest()->message;
+            $to_name = $user[0]->name;
+            $user_email = $user[0]->email;
+            Mail::send('mails.demo_mail', ['data' => $data], function ($message) use ($to_name, $user_email) {
+                $message->to($user_email, $to_name)
+                    ->subject('Artisans Web Testing Mail');
+                $message->from(env('MAIL_USERNAME'), 'Artisans Web');
+            });
+        }
+    }
+
+
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -85,20 +116,20 @@ class RequestCrudController extends CrudController
 
         CRUD::setValidation(RequestRequest::class);
         $this->crud->addField([   // Summernote
-            'name' => 'message',
-            'label' => 'Message',
-            'type' => 'summernote',
-            'options' =>
-                [
-                    'name' => 'description',
-                    'label' => 'Description',
-                    'type' => 'summernote',
-                    'options' => [
-                        'toolbar' => [
-                            ['font', ['bold', 'underline', 'italic']]
+                'name' => 'message',
+                'label' => 'Message',
+                'type' => 'summernote',
+                'options' =>
+                    [
+                        'name' => 'description',
+                        'label' => 'Description',
+                        'type' => 'summernote',
+                        'options' => [
+                            'toolbar' => [
+                                ['font', ['bold', 'underline', 'italic']]
+                            ],
                         ],
-                    ],
-                ]
+                    ]
             ]
         );
 
