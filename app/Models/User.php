@@ -24,8 +24,12 @@ class User extends Authenticatable
         'email',
     ];
 
+    public function team_detail(){
+        return $this->hasMany(TeamDetail::class);
+    }
+
     public function team(){
-//        return $this->
+        return $this->hasMany(Team::class);
     }
 
     /**
