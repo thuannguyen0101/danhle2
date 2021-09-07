@@ -35,12 +35,13 @@ class RequestCrudController extends CrudController
             $data = $this->crud->getRequest()->message;
             $to_name = $user[0]->name;
             $user_email = $user[0]->email;
-            Mail::send('mails.demo_mail', ['data' => $data], function ($message) use ($to_name, $user_email) {
+            Mail::send('mails.demo_mail', ['request_type'=>$this->crud->getRequest()->request_type,'email'=>backpack_user()->email,'msg' => $data,'user'=>backpack_user()->name], function ($message) use ($to_name, $user_email) {
                 $message->to($user_email, $to_name)
-                    ->subject('Artisans Web Testing Mail');
-                $message->from(env('MAIL_USERNAME'), 'Artisans Web');
+                    ->subject('HRMS Mail');
+                $message->from(env('MAIL_USERNAME'), 'HRMS');
             });
         }
+        return redirect()->route('request.index');
     }
 
 
